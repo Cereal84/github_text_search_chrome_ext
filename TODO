@@ -1,0 +1,9 @@
+TODO list
+
+	- use local storage in order to save matchs and search text
+
+	- add button to clear data from local storage for current search
+
+	- add button to clear all data from local storage
+
+	- use matche saved on local storage in order to do automatically search on file o main repo page
