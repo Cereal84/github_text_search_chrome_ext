@@ -25,6 +25,7 @@
 
     "permissions": [
         "activeTab",
+        "storage",
         "https://github.com/*"
     ]
 
