@@ -1,3 +1,17 @@
+/*
+ * LocalStore key => "gh_search_text"
+ *
+ * FORMAT
+ *      "gh_search_text" : {
+ *          "text_search" : {
+ *              "value" :  "SEARCH_STRING",
+ *              "matches" : [ "FILENAME", "FILENAME" ]
+ *          }
+ *      }
+ *
+ * */
+
+
 
 window.addEventListener ("load", main, false);
 
@@ -9,6 +23,18 @@ function clean_page()
     while (table_elem.hasChildNodes()){
         table_elem.removeChild(table_elem.firstChild);
     }
+}
+
+
+/* remove data from storage */
+function clean_data()
+{
+    
+}
+
+function store_last_search(text_search, matches)
+{
+    
 }
 
 function show_matches(matches)
@@ -174,6 +200,13 @@ function main(evt) {
     var file_nav = document.getElementsByClassName("commit-tease");
     if (file_nav)
     {
+
+        if (localStorage.getItem("gh_text_search") === null)
+        {
+            // create it empty
+            localStorage.set("gh_text_search", "");
+        }
+
         var file_div = document.getElementsByClassName("file");
 
 		// if exists element with class file probably we're in a page
