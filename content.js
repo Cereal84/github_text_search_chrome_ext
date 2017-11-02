@@ -34,7 +34,10 @@ function clean_data()
 
 function store_last_search(text_search, matches)
 {
-    
+    data = {};
+    data["text_search"] = {"value": text_search, "matches" : matches };
+    // TODO add history
+    localStorage.setItem("gh_text_search" , JSON.stringify(datae))
 }
 
 function show_matches(matches)
