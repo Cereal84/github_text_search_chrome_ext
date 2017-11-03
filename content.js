@@ -29,7 +29,6 @@ function clean_page()
 /* remove data from storage */
 function clean_data()
 {
-    
 }
 
 function store_last_search(text_search, matches)
@@ -37,8 +36,63 @@ function store_last_search(text_search, matches)
     data = {};
     data["text_search"] = {"value": text_search, "matches" : matches };
     // TODO add history
-    localStorage.setItem("gh_text_search" , JSON.stringify(datae))
+    window.localStorage.setItem("gh_text_search" , JSON.stringify(data))
 }
+
+
+function highlight_matches_on_current_file()
+{
+    // get current location/path
+    var window_path = window.location.pathname;
+
+    // TODO must be changed, this is a work around
+    // split using 'master', the second item is  the real path + filename
+    var tmp = window_path.split('master');
+
+    // remove '/'
+    var current_file = tmp[1].substring(1);
+    console.log(current_file);
+
+
+    var ext_data = JSON.parse(window.localStorage.getItem("gh_text_search"));
+    if (ext_data["text_search"] === null)
+        return;
+
+    var search_for = ext_data["text_search"]["value"];
+    var matches    = ext_data["text_search"]["matches"];
+
+
+    if (matches.indexOf(current_file) <= -1)
+        return;
+
+    console.log("You are searching for " + search_for);
+
+    /*
+    // stackoverflow : https://stackoverflow.com/questions/16251505/how-to-highlight-all-text-occurrences-in-a-html-page-with-javascript
+    // get all SPAN elems with class name "pl-c"
+    // non è detto che vada bene.. forse è meglio fare con la richiesta del file
+    var file_rows = document.getElementsByClassName("pl-c");
+
+    // for each search the text, if you found it add class name
+    for ( i = 0; i < file_rows.length; i++)
+    {
+        // get text and search match
+        var row_content = file_rows[i].textContent;
+
+        console.log(row_content);
+
+        if (row_content.indexOf(search_for) > -1)
+        {
+            console.log("match found!!!");
+            file_rows[i].style.backgroundColor = 'light-blue';
+        }
+
+    }
+
+    */
+    window.find()
+}
+
 
 function show_matches(matches)
 {
@@ -103,6 +157,8 @@ function do_search()
                 var tmp = data_json["items"][i]["path"];
                 matches.push(data_json["items"][i]["path"]);
             }
+
+            store_last_search(content, matches);
 
             show_matches(matches);
         }
@@ -204,10 +260,10 @@ function main(evt) {
     if (file_nav)
     {
 
-        if (localStorage.getItem("gh_text_search") === null)
+        if (window.localStorage.getItem("gh_text_search") === null)
         {
             // create it empty
-            localStorage.set("gh_text_search", "");
+            window.localStorage.setItem("gh_text_search", "");
         }
 
         var file_div = document.getElementsByClassName("file");
@@ -217,6 +273,8 @@ function main(evt) {
         if (file_div.length > 0)
         {
             // do not show search bar
+            // but try to highlight the matches
+            highlight_matches_on_current_file();
             return;
         }
         create_ext_search_div(file_nav[0]);
