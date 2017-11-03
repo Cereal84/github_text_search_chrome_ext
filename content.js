@@ -40,6 +40,33 @@ function store_last_search(text_search, matches)
 }
 
 
+
+function search_and_highlight_text(container, search_for)
+{
+
+    console.log(container);
+
+    var children = container.childNodes;
+
+    if (children.length == 0)
+    {
+        // search the text
+        console.log("search in text");
+        var content = container;
+        console.log(content);
+        if (content.indexOf(search_for) > -1)
+        {
+            console.log("Match ");
+            // TODO TODO TODO
+        }
+    } else {
+        for (i = 0; i < children.length; i++)
+            search_and_highlight_text(children[i], search_for);
+    }
+
+}
+
+
 function highlight_matches_on_current_file()
 {
     // get current location/path
@@ -67,30 +94,14 @@ function highlight_matches_on_current_file()
 
     console.log("You are searching for " + search_for);
 
-    /*
-    // stackoverflow : https://stackoverflow.com/questions/16251505/how-to-highlight-all-text-occurrences-in-a-html-page-with-javascript
-    // get all SPAN elems with class name "pl-c"
-    // non è detto che vada bene.. forse è meglio fare con la richiesta del file
-    var file_rows = document.getElementsByClassName("pl-c");
+    // check which kinfd of file we're talking about (code, markup ecc)
+    //itemprop="text"
+    var container =  document.querySelectorAll('[itemprop="text"]');
+    if (container)
+        search_and_highlight_text(container[0], search_for);
+    else
+        console.log("mmmm manca qualcosa");
 
-    // for each search the text, if you found it add class name
-    for ( i = 0; i < file_rows.length; i++)
-    {
-        // get text and search match
-        var row_content = file_rows[i].textContent;
-
-        console.log(row_content);
-
-        if (row_content.indexOf(search_for) > -1)
-        {
-            console.log("match found!!!");
-            file_rows[i].style.backgroundColor = 'light-blue';
-        }
-
-    }
-
-    */
-    window.find()
 }
 
 
