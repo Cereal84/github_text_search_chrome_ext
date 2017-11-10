@@ -49,6 +49,32 @@ function highlight(container,what,spanClass) {
 }
 
 
+function search_in_table_file(container, search_for)
+{
+
+    // these files have a table
+    // class="highlight tab-size js-file-line-container"
+    // container is div with itemprop=text
+
+    table = container.querySelectorAll('[class="highlight tab-size js-file-line-container"]');
+    if (table)
+    {
+        // iterate rows and for each row the cells
+        for (var i = 0, row; row = table[0].rows[i]; i++) {
+            //iterate through rows
+            //rows would be accessed using the "row" variable assigned in the for loop
+            for (var j = 0, col; col = row.cells[j]; j++) {
+                //iterate through columns
+                //columns would be accessed using the "col" variable assigned in the for loop
+                col_text = col.innerText;
+                console.log(col_text);
+            }// end cells
+        } // end ROWS
+    }
+
+}
+
+
 function search_and_highlight_text(container, search_for)
 {
 
@@ -106,7 +132,8 @@ function highlight_matches_on_current_file()
     //itemprop="text"
     var container =  document.querySelectorAll('[itemprop="text"]');
     if (container)
-        search_and_highlight_text(container[0], search_for);
+        search_in_table_file(container[0], search_for); 
+        //search_and_highlight_text(container[0], search_for);
     else
         console.log("mmmm manca qualcosa");
 
