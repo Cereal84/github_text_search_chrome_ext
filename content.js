@@ -45,6 +45,7 @@ function highlight(container,what,spanClass) {
         pattern = new RegExp('(>[^<.]*)(' + what + ')([^<.]*)','g'),
         replaceWith = '$1<span ' + ( spanClass ? 'class="' + spanClass + '"' : '' ) + '">$2</span>$3',
         highlighted = content.replace(pattern,replaceWith);
+        console.log(highlighted);
     return (container.innerHTML = highlighted) !== content;
 }
 
@@ -67,7 +68,10 @@ function search_in_table_file(container, search_for)
                 //iterate through columns
                 //columns would be accessed using the "col" variable assigned in the for loop
                 col_text = col.innerText;
-                console.log(col_text);
+                col_text.replace(search_for, "CACCA");
+                console.log(search_for, col_text);
+                //new_content = highlight(col, search_for, "blu");
+                //console.log(new_content);
             }// end cells
         } // end ROWS
     }
