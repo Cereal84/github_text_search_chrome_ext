@@ -59,8 +59,10 @@ function highlight(container, what, match_color) {
 function get_background()
 {
     var data = window.localStorage.getItem("gh_text_search");
-    return data["settings"]["background_match"];
-
+    var settings = data["settings"];
+    var color = settings["background_match"];
+    console.log(color);
+    return color;
 }
 
 function search_in_table_file(container, search_for)
