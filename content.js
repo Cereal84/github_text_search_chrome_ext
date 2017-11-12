@@ -2,6 +2,9 @@
  * LocalStore key => "gh_search_text"
  *
  * FORMAT
+ *      "settings" : {
+ *          "background_match" : "COLOR"
+ *      },
  *      "gh_search_text" : {
  *          "text_search" : {
  *              "value" :  "SEARCH_STRING",
@@ -33,22 +36,32 @@ function clean_data()
 
 function store_last_search(text_search, matches)
 {
-    data = {};
+    data = window.localStorage.getItem("gh_text_search");
     data["text_search"] = {"value": text_search, "matches" : matches };
     // TODO add history
-    window.localStorage.setItem("gh_text_search" , JSON.stringify(data))
+    window.localStorage.setItem("gh_text_search" , JSON.stringify(data));
 }
 
 
-function highlight(container,what,spanClass) {
-    var content = container.innerHTML,
-        pattern = new RegExp('(>[^<.]*)(' + what + ')([^<.]*)','g'),
-        replaceWith = '$1<span ' + ( spanClass ? 'class="' + spanClass + '"' : '' ) + '">$2</span>$3',
-        highlighted = content.replace(pattern,replaceWith);
-        console.log(highlighted);
-    return (container.innerHTML = highlighted) !== content;
+function highlight(container, what, match_color) {
+
+    var content = container.innerText;
+    if (content == "")
+        return;
+    var  pattern = new RegExp('(' + what + ')','ig');
+    var new_content = content.replace(pattern, '<span style="background:' + match_color +'">$1</span>');
+    if (new_content != content )
+        container.innerHTML = new_content;
+
 }
 
+// return background color stored in settings
+function get_background()
+{
+    var data = window.localStorage.getItem("gh_text_search");
+    return data["settings"]["background_match"];
+
+}
 
 function search_in_table_file(container, search_for)
 {
@@ -57,21 +70,18 @@ function search_in_table_file(container, search_for)
     // class="highlight tab-size js-file-line-container"
     // container is div with itemprop=text
 
+    var match_color = get_background();
+
     table = container.querySelectorAll('[class="highlight tab-size js-file-line-container"]');
     if (table)
     {
         // iterate rows and for each row the cells
         for (var i = 0, row; row = table[0].rows[i]; i++) {
-            //iterate through rows
-            //rows would be accessed using the "row" variable assigned in the for loop
+
             for (var j = 0, col; col = row.cells[j]; j++) {
-                //iterate through columns
-                //columns would be accessed using the "col" variable assigned in the for loop
-                col_text = col.innerText;
-                col_text.replace(search_for, "CACCA");
-                console.log(search_for, col_text);
-                //new_content = highlight(col, search_for, "blu");
-                //console.log(new_content);
+
+                highlight(col, search_for, match_color);
+
             }// end cells
         } // end ROWS
     }
@@ -309,12 +319,6 @@ function main(evt) {
     var file_nav = document.getElementsByClassName("commit-tease");
     if (file_nav)
     {
-
-        if (window.localStorage.getItem("gh_text_search") === null)
-        {
-            // create it empty
-            window.localStorage.setItem("gh_text_search", "");
-        }
 
         var file_div = document.getElementsByClassName("file");
 
