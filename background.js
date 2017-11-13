@@ -19,21 +19,19 @@ function init()
 {
 
     // check if background color is stored
-    if (localStorage.getItem("gh_text_search") === null)
+    if (window.localStorage.getItem("gh_text_search") === null)
     {
         var data = {};
         // init background color if it not exists
         data["settings"] = {"background_match": "#fff0b3"};
         data["text_search"] = {};
         // TODO add history
-        localStorage.setItem("gh_text_search" , JSON.stringify(data))
+        window.localStorage.setItem("gh_text_search" , JSON.stringify(data))
 
     } else {
         console.log("EXT already initialized");
         console.log(localStorage.getItem("gh_text_search")) ;
     }
-    console.log("INIT EXT");
-
 }
 
 init();
