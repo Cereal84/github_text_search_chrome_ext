@@ -32,9 +32,6 @@ function init()
 
     }
 
- 
-
 }
 
-colorPicker.addEventListener("change", watchColorPicker, false);
 
