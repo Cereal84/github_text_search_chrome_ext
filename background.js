@@ -14,19 +14,54 @@
  *
  * */
 
+// message passing in order to communicate data extensions and content.js
+chrome.runtime.onMessage.addListener(
+
+    /*
+     * Message format
+     *
+     *  type,    is the function that I wanit
+     *  data,    contains resposne data or request data
+     */
+
+    function(message, sender, sendResponse) {
+        switch(message.type) {
+            case "getMatchColor":
+
+                // get match color from  localStorage
+                var storage = JSON.parse(localStorage.getItem("gh_text_search"));
+                var settings = storage['settings'];
+                // get stored color from settings
+                match_color = settings['background_match'];
+
+                response = {'type': message.type, 'data': match_color};
+                sendResponse(response);
+                break;
+
+            default:
+                console.error("Unrecognised message: ", message);
+        }
+    }
+);.
+
 
 function init()
 {
 
+    localStorage.removeItem("gh_text_search");
+
     // check if background color is stored
-    if (window.localStorage.getItem("gh_text_search") === null)
+    if (localStorage.getItem("gh_text_search") === null)
     {
         var data = {};
         // init background color if it not exists
         data["settings"] = {"background_match": "#fff0b3"};
         data["text_search"] = {};
         // TODO add history
-        window.localStorage.setItem("gh_text_search" , JSON.stringify(data))
+
+        localStorage.setItem("gh_text_search" , JSON.stringify(data));
+
+
 
     } else {
         console.log("EXT already initialized");

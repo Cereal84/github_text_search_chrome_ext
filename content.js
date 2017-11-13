@@ -36,10 +36,16 @@ function clean_data()
 
 function store_last_search(text_search, matches)
 {
-    data = window.localStorage.getItem("gh_text_search");
+    data = JSON.parse(localStorage.getItem("gh_text_search"));
+    console.log(typeof(data));
+    json_data = JSON.parse(data);
+    console.log(json_data);
+    console.log(typeof(json_data));
+
+
     data["text_search"] = {"value": text_search, "matches" : matches };
     // TODO add history
-    window.localStorage.setItem("gh_text_search" , JSON.stringify(data));
+    localStorage.setItem("gh_text_search" , JSON.stringify(data));
 }
 
 
@@ -49,7 +55,8 @@ function highlight(container, what, match_color) {
     if (content == "")
         return;
     var  pattern = new RegExp('(' + what + ')','ig');
-    var new_content = content.replace(pattern, '<span style="background:' + match_color +'">$1</span>');
+    var new_content = content.replace(pattern, '<span style="background:' +
+                                                    match_color +'">$1</span>');
     if (new_content != content )
         container.innerHTML = new_content;
 
@@ -58,8 +65,11 @@ function highlight(container, what, match_color) {
 // return background color stored in settings
 function get_background()
 {
-    var data = window.localStorage.getItem("gh_text_search");
+    var data = localStorage.getItem("gh_text_search");
     var settings = data["settings"];
+
+    console.log(data);
+
     var color = settings["background_match"];
     console.log(color);
     return color;
@@ -130,13 +140,19 @@ function highlight_matches_on_current_file()
     var current_file = tmp[1].substring(1);
     console.log(current_file);
 
-
-    var ext_data = JSON.parse(window.localStorage.getItem("gh_text_search"));
+    var ext_data = JSON.parse(localStorage.getItem("gh_text_search"));
     if (ext_data["text_search"] === null)
         return;
 
-    var search_for = ext_data["text_search"]["value"];
-    var matches    = ext_data["text_search"]["matches"];
+    console.log(ext_data);
+    console.log(ext_data['text_search']);
+
+    var match_infos = ext_data['text_search'];
+
+    console.log(match_infos);
+
+    var search_for = match_infos["value"];
+    var matches    = match_infos["matches"];
 
 
     if (matches.indexOf(current_file) <= -1)
@@ -317,6 +333,8 @@ function create_ext_search_div(file_nav_node)
 
 
 function main(evt) {
+
+    get_background();
 
     var file_nav = document.getElementsByClassName("commit-tease");
     if (file_nav)

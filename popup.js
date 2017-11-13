@@ -14,7 +14,8 @@ function main(evt) {
 
     var match_color = null;
 
-    var storage = JSON.parse(window.localStorage.getItem("gh_text_search"));
+    var storage = JSON.parse(localStorage.getItem("gh_text_search"));
+
     // check if background color is stored
     if (storage === null)
     {
