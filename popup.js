@@ -6,19 +6,25 @@ function color_changed(event)
 {
     var background_color = event.target.value;
 
+    // TODO store it into settings
+
 }
 
 function main(evt) {
 
-    var match_color = "#fff0b3";
+    var match_color = null;
 
-    var storage = window.localStorage.getItem("gh_text_search");
+    var storage = JSON.parse(window.localStorage.getItem("gh_text_search"));
     // check if background color is stored
-    if (storage !== null)
+    if (storage === null)
     {
-        var data = storage['settings'];
+        console.log("ERR localstorage has not info about this extension");
+    } else {
+
+        var settings = storage['settings'];
+
         // get stored color from settings
-        match_color = data["settings"]['background_match'];
+        match_color = settings['background_match'];
     }
 
 
