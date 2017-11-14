@@ -5,10 +5,6 @@
  *      "gh_search_text" : {
  *          "settings" : {
  *              "background_match" : "COLOR"
- *          },
- *          "text_search" : {
- *              "value" :  "SEARCH_STRING",
- *              "matches" : [ "FILENAME", "FILENAME" ]
  *          }
  *      }
  *
@@ -42,7 +38,7 @@ chrome.runtime.onMessage.addListener(
                 console.error("Unrecognised message: ", message);
         }
     }
-);.
+);
 
 
 function init()
@@ -56,8 +52,6 @@ function init()
         var data = {};
         // init background color if it not exists
         data["settings"] = {"background_match": "#fff0b3"};
-        data["text_search"] = {};
-        // TODO add history
 
         localStorage.setItem("gh_text_search" , JSON.stringify(data));
 
