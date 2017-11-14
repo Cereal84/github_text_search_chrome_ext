@@ -8,10 +8,21 @@ mkdir ${EXT_DIR}
 echo "$EXT_DIR created"
 
 # copy the files
+ext_files=(
+    "manifest.json"
+    "content.js"
+    "ext_style.css"
+    "popup.html"
+    "popup.js"
+    "background.js");
 
-cp manifest.json ${EXT_DIR}
-cp content.js ${EXT_DIR}
-cp ext_style.css ${EXT_DIR}
+for i in ${ext_files[@]}; do
+     echo $i
+     cp ${i} ${EXT_DIR}
+done
+
+cp -r images ${EXT_DIR}
+
 
 # compress zip file
 zip -r ${ZIP_FILE}  ${EXT_DIR}
