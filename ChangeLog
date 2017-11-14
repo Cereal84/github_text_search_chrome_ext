@@ -1,3 +1,7 @@
+0.9.4
+    - User can choose the background color for matches
+    - Not support md files (like some README)
+
 0.9.3
     - Add local storage
 

@@ -1,9 +1,12 @@
 TODO list
 
-	- use local storage in order to save matchs and search text
+	[x] use local storage in order to save matchs and search text
+    [x] User can choose the background color to highlight the matches
+
+    - add auto focus on match
 
 	- add button to clear data from local storage for current search
 
 	- add button to clear all data from local storage
 
-	- use matche saved on local storage in order to do automatically search on file o main repo page
+	- use matches saved on local storage in order to do automatically search on file o main repo page
