@@ -37,11 +37,7 @@ function clean_data()
 function store_last_search(text_search, matches)
 {
     data = JSON.parse(localStorage.getItem("gh_text_search"));
-    console.log(typeof(data));
     json_data = JSON.parse(data);
-    console.log(json_data);
-    console.log(typeof(json_data));
-
 
     data["text_search"] = {"value": text_search, "matches" : matches };
     // TODO add history
@@ -62,18 +58,6 @@ function highlight(container, what, match_color) {
 
 }
 
-// return background color stored in settings
-function get_background()
-{
-    var data = localStorage.getItem("gh_text_search");
-    var settings = data["settings"];
-
-    console.log(data);
-
-    var color = settings["background_match"];
-    console.log(color);
-    return color;
-}
 
 function search_in_table_file(container, search_for)
 {
@@ -82,38 +66,39 @@ function search_in_table_file(container, search_for)
     // class="highlight tab-size js-file-line-container"
     // container is div with itemprop=text
 
-    var match_color = get_background();
+    var match_color = null;
 
-    table = container.querySelectorAll('[class="highlight tab-size js-file-line-container"]');
-    if (table)
-    {
-        // iterate rows and for each row the cells
-        for (var i = 0, row; row = table[0].rows[i]; i++) {
+    chrome.runtime.sendMessage({type: "getMatchColor"}, function(response) {
 
-            for (var j = 0, col; col = row.cells[j]; j++) {
+        match_color = response.data;
 
-                highlight(col, search_for, match_color);
+        table = container.querySelectorAll('[class="highlight tab-size js-file-line-container"]');
+        if (table)
+        {
+            // iterate rows and for each row the cells
+            for (var i = 0, row; row = table[0].rows[i]; i++) {
 
-            }// end cells
-        } // end ROWS
-    }
+                for (var j = 0, col; col = row.cells[j]; j++) {
 
+                    highlight(col, search_for, match_color);
+
+                }// end cells
+            } // end ROWS
+        }
+
+    });
 }
 
 
 function search_and_highlight_text(container, search_for)
 {
 
-    console.log(container);
-
     var children = container.childNodes;
 
     if (children.length == 0)
     {
         // search the text
-        console.log("search in text");
         var content = container;
-        console.log(content);
         if (content.indexOf(search_for) > -1)
         {
             console.log("Match ");
@@ -138,36 +123,33 @@ function highlight_matches_on_current_file()
 
     // remove '/'
     var current_file = tmp[1].substring(1);
-    console.log(current_file);
 
     var ext_data = JSON.parse(localStorage.getItem("gh_text_search"));
     if (ext_data["text_search"] === null)
         return;
 
-    console.log(ext_data);
-    console.log(ext_data['text_search']);
+    ext_data = JSON.parse(ext_data);
 
     var match_infos = ext_data['text_search'];
-
-    console.log(match_infos);
 
     var search_for = match_infos["value"];
     var matches    = match_infos["matches"];
 
-
     if (matches.indexOf(current_file) <= -1)
+    {
+        console.log("This file is not correct one");
         return;
-
+    }
     console.log("You are searching for " + search_for);
 
     // check which kinfd of file we're talking about (code, markup ecc)
     //itemprop="text"
     var container =  document.querySelectorAll('[itemprop="text"]');
     if (container)
-        search_in_table_file(container[0], search_for); 
+        search_in_table_file(container[0], search_for);
         //search_and_highlight_text(container[0], search_for);
     else
-        console.log("mmmm manca qualcosa");
+        console.log("something is missing");
 
 }
 
@@ -332,9 +314,27 @@ function create_ext_search_div(file_nav_node)
 }
 
 
+function init_content_script()
+{
+    // check if background color is stored
+    if (localStorage.getItem("gh_text_search") === null)
+    {
+        var data = {};
+        // init background color if it not exists
+        data["text_search"] = {};
+
+        localStorage.setItem("gh_text_search" , JSON.stringify(data));
+
+    }
+
+
+}
+
+
 function main(evt) {
 
-    get_background();
+    // check if localStorage
+    init_content_script();
 
     var file_nav = document.getElementsByClassName("commit-tease");
     if (file_nav)
