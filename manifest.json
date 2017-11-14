@@ -6,7 +6,7 @@
     "description": "Add a search text bar on current GitHub repo page.",
 	"author": "Alessandro Pischedda",
 
-    "version": "0.9.4",
+    "version": "0.9.5",
 
 	"icons" : {
 		"16": "images/icon16.png",
@@ -27,13 +27,13 @@
     },
 
     "browser_action": {
-          "default_icon": {                    // optional
-            "16": "images/icon16.png",           // optional
-            "48": "images/icon48.png",           // optional
-            "128": "images/icon128.png"            // optional
+          "default_icon": {
+            "16": "images/icon16.png",
+            "48": "images/icon48.png",
+            "128": "images/icon128.png"
           },
-          "default_title": "GitHub Search extension",      // optional; shown in tooltip
-          "default_popup": "popup.html"        // optional
+          "default_title": "GitHub Search extension",
+          "default_popup": "popup.html"
         },
 
 
