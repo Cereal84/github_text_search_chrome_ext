@@ -44,8 +44,6 @@ chrome.runtime.onMessage.addListener(
 function init()
 {
 
-    localStorage.removeItem("gh_text_search");
-
     // check if background color is stored
     if (localStorage.getItem("gh_text_search") === null)
     {
