@@ -59,7 +59,6 @@ function init()
 
     } else {
         console.log("EXT already initialized");
-        console.log(localStorage.getItem("gh_text_search")) ;
     }
 }
 
