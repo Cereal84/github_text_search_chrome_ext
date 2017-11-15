@@ -72,21 +72,12 @@ function go_to_next_focus()
 
 function focus_keyUp(e) {
 
-    // ctrl + arrow_right
-    if (e.ctrlKey && e.keyCode == 39) {
+    // (ctrl | command) + arrow_right
+    if ((e.ctrlKey || e.metaKey) && (e.keyCode == 39)) {
         go_to_next_focus();
     }
-    // ctrl + arrow_left
-    if (e.ctrlKey && e.keyCode == 37) {
-        go_to_prev_focus();
-    }
-
-    // MAC -> command key
-    if (e.metaKey && e.keyCode == 39) {
-        go_to_next_focus();
-    }
-    // ctrl + arrow_left
-    if (e.metaKey && e.keyCode == 37) {
+    // (ctrl | command) + arrow_left
+    if ((e.ctrlKey || e.metaKey) && (e.keyCode == 37)) {
         go_to_prev_focus();
     }
 
