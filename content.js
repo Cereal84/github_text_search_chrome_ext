@@ -36,12 +36,11 @@ function clean_data()
 
 function store_last_search(text_search, matches)
 {
-    data = JSON.parse(localStorage.getItem("gh_text_search"));
-    json_data = JSON.parse(data);
+    json_data = JSON.parse(localStorage.getItem("gh_text_search"));
 
-    data["text_search"] = {"value": text_search, "matches" : matches };
+    json_data["text_search"] = {"value": text_search, "matches" : matches };
     // TODO add history
-    localStorage.setItem("gh_text_search" , JSON.stringify(data));
+    localStorage.setItem("gh_text_search" , JSON.stringify(json_data));
 }
 
 
@@ -127,8 +126,6 @@ function highlight_matches_on_current_file()
     var ext_data = JSON.parse(localStorage.getItem("gh_text_search"));
     if (ext_data["text_search"] === null)
         return;
-
-    ext_data = JSON.parse(ext_data);
 
     var match_infos = ext_data['text_search'];
 

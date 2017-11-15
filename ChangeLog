@@ -1,3 +1,6 @@
+0.9.5
+    - Fix wrong localStorage data updates
+
 0.9.4
     - User can choose the background color for matches
     - Not support md files (like some README)
