@@ -310,8 +310,11 @@ function do_search()
                 matches.push(data_json["items"][i]["path"]);
             }
 
-            store_last_search(content, matches);
 
+            // SHOW Matches Found: X
+            var span_info = document.getElementById("gh_match_infos");
+            span_info.innerHTML = "Matches found: " + matches.length;
+            store_last_search(content, matches);
             show_matches(matches);
         }
     };
@@ -358,8 +361,12 @@ function keypress_handler(event)
 {
     // enter has keyCode = 13, change it if you want to use another button
     if (event.keyCode == 13) {
+
+        // SHOW Searching....
+        var span_info = document.getElementById("gh_match_infos");
+        span_info.innerHTML = "Searching....";
         do_search();
-        return false;
+       return false;
     }
 }
 
@@ -384,8 +391,14 @@ function create_ext_search_div(file_nav_node)
 
         input.addEventListener("keypress", keypress_handler);
 
+        // span with searching info list "start"/"end"
+        var span_info = document.createElement("span");
+        span_info.setAttribute('id', 'gh_match_infos');
+        span_info.style.marginLeft = "5px";
+
         container_div.appendChild(label_text);
         container_div.appendChild(input);
+        container_div.appendChild(span_info);
 
         search_div.appendChild(container_div);
         var file_wrap_div = document.createElement('div');
