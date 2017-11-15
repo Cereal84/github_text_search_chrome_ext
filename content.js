@@ -2,9 +2,6 @@
  * LocalStore key => "gh_search_text"
  *
  * FORMAT
- *      "settings" : {
- *          "background_match" : "COLOR"
- *      },
  *      "gh_search_text" : {
  *          "text_search" : {
  *              "value" :  "SEARCH_STRING",
@@ -18,6 +15,84 @@
 
 window.addEventListener ("load", main, false);
 
+// global variable used to loop on focus elements
+var current_focus_index = 0;
+var total_matches = 0;
+
+function first_focus()
+{
+    if (total_matches == 0)
+        return;
+
+    var id_name = "gh_ext_match_0";
+
+    document.getElementById(id_name).focus();
+}
+
+
+function go_to_prev_focus()
+{
+
+    if (total_matches == 0)
+        return;
+
+    var tmp_index = current_focus_index - 1;
+
+    if (tmp_index < 0) {
+        console.log("lower bound");
+        tmp_index = total_matches - 1;
+    }
+
+    current_focus_index = tmp_index;
+
+    var id_name = "gh_ext_match_" + current_focus_index;
+
+    document.getElementById(id_name).focus();
+
+}
+
+
+function go_to_next_focus()
+{
+
+    if (total_matches == 0)
+        return;
+
+    var tmp_index = current_focus_index + 1;
+    if (tmp_index > (total_matches - 1))
+        tmp_index = 0;
+
+    current_focus_index = tmp_index;
+
+    var id_name = "gh_ext_match_" + current_focus_index;
+
+    document.getElementById(id_name).focus();
+
+}
+
+function focus_keyUp(e) {
+
+    // ctrl + arrow_right
+    if (e.ctrlKey && e.keyCode == 39) {
+        go_to_next_focus();
+    }
+    // ctrl + arrow_left
+    if (e.ctrlKey && e.keyCode == 37) {
+        go_to_prev_focus();
+    }
+
+    // MAC -> command key
+    if (e.metaKey && e.keyCode == 39) {
+        go_to_next_focus();
+    }
+    // ctrl + arrow_left
+    if (e.metaKey && e.keyCode == 37) {
+        go_to_prev_focus();
+    }
+
+}
+
+document.addEventListener('keyup', focus_keyUp, false);
 
 function clean_page()
 {
@@ -49,11 +124,19 @@ function highlight(container, what, match_color) {
     var content = container.innerText;
     if (content == "")
         return;
+
+    var id_name = "gh_ext_match_" + total_matches;
     var  pattern = new RegExp('(' + what + ')','ig');
-    var new_content = content.replace(pattern, '<span style="background:' +
-                                                    match_color +'">$1</span>');
+
+
+    // tabindex is still 0 because the focus is handeld by hand
+    var new_content = content.replace(pattern, '<span id="' + id_name + '"' +
+                   'tabindex="0" style="background:' + match_color +'">$1</span>');
     if (new_content != content )
+    {
         container.innerHTML = new_content;
+        total_matches++;
+    }
 
 }
 
@@ -84,6 +167,8 @@ function search_in_table_file(container, search_for)
                 }// end cells
             } // end ROWS
         }
+
+        first_focus();
 
     });
 }
