@@ -72,13 +72,32 @@ function go_to_next_focus()
 
 function focus_keyUp(e) {
 
-    // (ctrl | command) + arrow_right
-    if ((e.ctrlKey || e.metaKey) && (e.keyCode == 39)) {
-        go_to_next_focus();
-    }
-    // (ctrl | command) + arrow_left
-    if ((e.ctrlKey || e.metaKey) && (e.keyCode == 37)) {
-        go_to_prev_focus();
+
+    if (navigator.appVersion.indexOf("Mac")!=-1)
+    {
+        // on MAC use j.k like Vi
+        // j   move down one line
+        // k   move up one line
+        // command  + k
+        if (e.metaKey && (e.keyCode == 75)) {
+            go_to_next_focus();
+        }
+        // command + j
+        if (e.metaKey && (e.keyCode == 74)) {
+            go_to_prev_focus();
+        }
+
+    } else {
+
+        // ctrl + arrow_right
+        if (e.ctrlKey && (e.keyCode == 39)) {
+            go_to_next_focus();
+        }
+        // ctrl + arrow_left
+        if (e.ctrlKey && (e.keyCode == 37)) {
+            go_to_prev_focus();
+        }
+
     }
 
 }
