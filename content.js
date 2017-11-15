@@ -39,7 +39,6 @@ function go_to_prev_focus()
     var tmp_index = current_focus_index - 1;
 
     if (tmp_index < 0) {
-        console.log("lower bound");
         tmp_index = total_matches - 1;
     }
 
@@ -193,11 +192,7 @@ function search_and_highlight_text(container, search_for)
     {
         // search the text
         var content = container;
-        if (content.indexOf(search_for) > -1)
-        {
-            console.log("Match ");
-            // TODO TODO TODO
-        }
+
     } else {
         for (i = 0; i < children.length; i++)
             search_and_highlight_text(children[i], search_for);
@@ -229,10 +224,9 @@ function highlight_matches_on_current_file()
 
     if (matches.indexOf(current_file) <= -1)
     {
-        console.log("This file is not correct one");
+        console.log("This file is not a correct one");
         return;
     }
-    console.log("You are searching for " + search_for);
 
     // check which kinfd of file we're talking about (code, markup ecc)
     //itemprop="text"
@@ -240,8 +234,6 @@ function highlight_matches_on_current_file()
     if (container)
         search_in_table_file(container[0], search_for);
         //search_and_highlight_text(container[0], search_for);
-    else
-        console.log("something is missing");
 
 }
 
@@ -271,8 +263,6 @@ function show_matches(matches)
             row_elem.appendChild(a_elem);
          }
 
-    } else {
-        console.log("not found");
     }
 }
 
@@ -292,7 +282,6 @@ function do_search()
     gh_request.onreadystatechange = function() {
 
         if (this.readyState == 4 && this.status == 422) {
-            // console.log("No results");
 			return;
         }
 
