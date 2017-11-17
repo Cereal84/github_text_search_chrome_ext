@@ -30,6 +30,14 @@ function first_focus()
 }
 
 
+function update_focus_infos()
+{
+
+    var span_infos = document.getElementById("focus_infos");
+    var text = "[ " + (current_focus_index + 1 ) + "/" + total_matches + "]";
+    span_infos.innerHTML = text;
+}
+
 function go_to_prev_focus()
 {
 
@@ -47,7 +55,7 @@ function go_to_prev_focus()
     var id_name = "gh_ext_match_" + current_focus_index;
 
     document.getElementById(id_name).focus();
-
+    update_focus_infos();
 }
 
 
@@ -66,6 +74,7 @@ function go_to_next_focus()
     var id_name = "gh_ext_match_" + current_focus_index;
 
     document.getElementById(id_name).focus();
+    update_focus_infos();
 
 }
 
@@ -150,6 +159,41 @@ function highlight(container, what, match_color) {
 }
 
 
+function create_match_div()
+{
+    // its position is to bottom right of the window
+    var div = document.createElement("div");
+    div.setAttribute('id', 'gh_match_next_prev');
+    div.style.bottom = "40px";
+    div.style.right = "50px";
+    div.style.zIndex = "999";
+    div.style.position = "fixed";
+
+    // button PREV
+    var button_prev = document.createElement("button");
+    var prev_text = document.createTextNode("Prev");
+    button_prev.appendChild(prev_text);
+    button_prev.onclick = go_to_prev_focus;
+
+    // button NEXT
+    var button_next = document.createElement("button");
+    var next_text = document.createTextNode("Next");
+    button_next.appendChild(next_text);
+    button_next.onclick = go_to_next_focus;
+
+    // info about focused match / total_matches
+    var focus_match_infos = document.createElement("span");
+    focus_match_infos.setAttribute("id", "focus_infos");
+    focus_match_infos.innerHTML = "[ 1/" + total_matches + "]";
+    
+
+    div.appendChild(button_prev);
+    div.appendChild(button_next);
+    div.appendChild(focus_match_infos);
+
+    document.body.appendChild(div);
+}
+
 function search_in_table_file(container, search_for)
 {
 
@@ -178,7 +222,7 @@ function search_in_table_file(container, search_for)
         }
 
         first_focus();
-
+        create_match_div();
     });
 }
 
