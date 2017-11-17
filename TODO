@@ -1,8 +1,12 @@
 TODO list
 
-	[x] use local storage in order to save matchs and search text
+	[x] Use local storage in order to save matchs and search text
     [x] User can choose the background color to highlight the matches
-    [x] add auto focus on match
+    [x] Add auto focus on match
+    [x] Add shortcut for Linux
+    [x] Add button to move around the matches
+
+    - add settings to choose the position of panel with button
 
 	- add button to clear data from local storage for current search
 
