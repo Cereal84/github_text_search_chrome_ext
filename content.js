@@ -34,7 +34,7 @@ function update_focus_infos()
 {
 
     var span_infos = document.getElementById("focus_infos");
-    var text = "[ " + (current_focus_index + 1 ) + "/" + total_matches + "]";
+    var text = "[" + (current_focus_index + 1 ) + "/" + total_matches + "]";
     span_infos.innerHTML = text;
 }
 
@@ -162,13 +162,17 @@ function highlight(container, what, match_color) {
 function create_match_div()
 {
     // its position is to bottom right of the window
-    var div = document.createElement("div");
-    div.setAttribute('id', 'gh_match_next_prev');
-    div.style.bottom = "40px";
-    div.style.right = "50px";
-    div.style.zIndex = "999";
-    div.style.position = "fixed";
+    var panel = document.createElement("div");
+    panel.setAttribute('id', 'gh_match_next_prev');
+    //panel.setAttribute('class', 'panel panel-default');
+    panel.style.bottom = "40px";
+    panel.style.right = "50px";
+    panel.style.zIndex = "999";
+    panel.style.position = "fixed";
+    panel.style.border = "2px solid #c8e1ff";
 
+    var panel_body = document.createElement("div");
+    panel_body.style.margin = "3px";
     // button PREV
     var button_prev = document.createElement("button");
     var prev_text = document.createTextNode("Prev");
@@ -184,14 +188,17 @@ function create_match_div()
     // info about focused match / total_matches
     var focus_match_infos = document.createElement("span");
     focus_match_infos.setAttribute("id", "focus_infos");
-    focus_match_infos.innerHTML = "[ 1/" + total_matches + "]";
-    
+    focus_match_infos.innerHTML = "[1/" + total_matches + "]";
+    focus_match_infos.style.marginLeft = "2px";
 
-    div.appendChild(button_prev);
-    div.appendChild(button_next);
-    div.appendChild(focus_match_infos);
+    panel_body.appendChild(button_prev);
+    panel_body.appendChild(button_next);
+    panel_body.appendChild(focus_match_infos);
 
-    document.body.appendChild(div);
+    panel.appendChild(panel_body);
+
+
+    document.body.appendChild(panel);
 }
 
 function search_in_table_file(container, search_for)
