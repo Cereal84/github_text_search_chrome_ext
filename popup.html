@@ -1,13 +1,36 @@
 <!doctype html>
 <html>
     <head>
-        <title>Typo Blaster</title>
+        <title>GitHub Extension Setings</title>
+        <link href="css/popup.css" rel="stylesheet">
         <script src="popup.js"></script>
     </head>
     <body>
-        <div>
-            <label>Background color for matches </label>
-            <input type="color" id="gh_ext_color">
+        <div class="container">
+            <h3> Settings</h3>
+            <div class="inner_voice">
+                <label>Background color for matches </label>
+                <input class="color_input" type="color" id="gh_ext_color">
+            </div>
+        </div>
+        </br>
+        <hr>
+        <div class="container">
+                <h3>Shortcut</h3>
+                <h4>Mac</h4>
+                <div class="inner_voice">
+                    <p>Next Match: <i>Shift + Arrow Right</i></p>
+                    <span class="key">shift</span> <span class="plus_key">+</span> <span class="key"> > </span>
+                    <p>Prev Match: <i>Shift + Arrow Left</i></p>
+                    <span class="key">shift</span> + <span class="key"> < </span>
+                </div>
+                <h4>Microsoft/Linux</h4>
+                <p class="inner_voice">Next Match: <i>Ctrl + Arrow Right</i></p>
+                <span class="key">ctrl</span> + <span class="key"> > </span>
+
+                <p class="inner_voice">Prev Match: <i>Ctrl + Arrow Left</i></p>
+                <span class="key">ctrl</span> + <span class="key"> > </span>
+
         </div>
     </body>
 
