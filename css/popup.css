@@ -22,6 +22,7 @@
     border-radius:2px;
     margin-left: 2px;
     margin-bottom:2px;
+    float: left;
     transition: box-shadow 0.7s ease;
 }
 
@@ -34,4 +35,5 @@
     line-height: 29px;
     margin-left: 2px;
     margin-bottom:2px;
+    float:left;
 }
