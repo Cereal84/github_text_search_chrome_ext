@@ -1,0 +1,37 @@
+.container {
+
+    width: 400px;
+}
+
+.color_input {
+    margin-left: 3px;
+}
+
+.inner_voice {
+    margin-left: 15px;
+}
+
+.key{
+    width: 30px; height:25px;
+    background-color:gray;
+    display: block;
+    text-align: center;
+    padding-left: 8px;
+    padding-right: 8px;
+    line-height: 29px;
+    border-radius:2px;
+    margin-left: 2px;
+    margin-bottom:2px;
+    transition: box-shadow 0.7s ease;
+}
+
+.plus_key {
+    width: 30px; height:25px;
+    display: block;
+    text-align: center;
+    padding-left: 8px;
+    padding-right: 8px;
+    line-height: 29px;
+    margin-left: 2px;
+    margin-bottom:2px;
+}
