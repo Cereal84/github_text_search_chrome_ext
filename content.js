@@ -80,28 +80,33 @@ function go_to_next_focus()
 
 function focus_keyUp(e) {
 
-
+    /*  MAC:
+     *
+     *  Next  shift + arrow right
+     *  Prev  shift + arrow left
+     *
+     *  Othres:
+     *
+     *  Next  ctrl + arrow right
+     *  Prev  ctrl + arrow left
+     *
+     * */
     if (navigator.appVersion.indexOf("Mac")!=-1)
     {
-        // on MAC use j.k like Vi
-        // j   move down one line
-        // k   move up one line
-        // command  + k
-        if (e.metaKey && (e.keyCode == 75)) {
+
+        // on MAC we're using shift instead of ctrl
+        if (e.shiftKey && (e.which == 39)) {
             go_to_next_focus();
         }
-        // command + j
-        if (e.metaKey && (e.keyCode == 74)) {
+        if (e.shiftKey && (e.wchich == 37)) {
             go_to_prev_focus();
         }
 
     } else {
 
-        // ctrl + arrow_right
         if (e.ctrlKey && (e.keyCode == 39)) {
             go_to_next_focus();
         }
-        // ctrl + arrow_left
         if (e.ctrlKey && (e.keyCode == 37)) {
             go_to_prev_focus();
         }
