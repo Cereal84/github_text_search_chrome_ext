@@ -171,13 +171,16 @@ function highlight(container, what) {
     // TODO ISSUE: using innerHTML it do replace even inside HTML tags
     // corrupting the tag
 
-    var content = container.textContent;
+    var content = container.innerHTML;
 
     if ((content == "") || (content == undefined))
         return;
 
     var id_name = "gh_ext_match_" + total_matches;
-    var  pattern = new RegExp('(' + what + ')','ig');
+
+    // BLACK (RegExp) MAGIC
+    // (?!([^<])*?>) avoid to have match inside HTML tags
+    var  pattern = new RegExp('(' + what + ')(?!([^<])*?>)','ig');
 
     var new_content = content.replace(pattern, replace_match);
 
