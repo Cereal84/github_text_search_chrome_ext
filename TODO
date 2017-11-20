@@ -6,8 +6,9 @@ TODO list
     [x] Add shortcut for Linux
     [x] Add button to move around the matches
     [x] Add shortcut for MAC
+    [x] When go back to the repo page redo last search
+    [x] Clean data when search empty string
 
-    - when go back to the repo page redo last search
     - add settings to choose the position of panel with button
     - add checkbox to have panel to move around the matches
     - add close button on matches panel
