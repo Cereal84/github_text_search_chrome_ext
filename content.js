@@ -132,6 +132,20 @@ function clean_page()
 /* remove data from storage */
 function clean_data()
 {
+
+    // check if background color is stored
+    if (localStorage.getItem("gh_text_search"))
+    {
+        var data = {};
+        // init background color if it not exists
+        data["text_search"] = {};
+
+        localStorage.setItem("gh_text_search" , JSON.stringify(data));
+
+    }
+
+
+
 }
 
 function store_last_search(text_search, matches)
@@ -406,12 +420,20 @@ function show_matches(matches)
 function do_search()
 {
     var content = document.getElementById("ext_search_bar").value;
+    var span_info = document.getElementById("gh_match_infos");
 
     // clean match result table
     clean_page();
 
     if (content == "")
-      return;
+    {
+        clean_data();
+        span_info.innerHTML = "";
+        return;
+    }
+
+    // SHOW Searching....
+    span_info.innerHTML = "Searching....";
 
     var gh_request = new XMLHttpRequest();
     gh_request.onreadystatechange = function() {
@@ -436,7 +458,7 @@ function do_search()
 
 
             // SHOW Matches Found: X
-            var span_info = document.getElementById("gh_match_infos");
+            //var span_info = document.getElementById("gh_match_infos");
             span_info.innerHTML = "Matches found: " + matches.length;
             store_last_search(content, matches);
             show_matches(matches);
@@ -486,12 +508,31 @@ function keypress_handler(event)
     // enter has keyCode = 13, change it if you want to use another button
     if (event.keyCode == 13) {
 
-        // SHOW Searching....
-        var span_info = document.getElementById("gh_match_infos");
-        span_info.innerHTML = "Searching....";
-        do_search();
+       do_search();
        return false;
     }
+}
+
+function get_last_search()
+{
+    var result = "";
+
+    if (localStorage.getItem("gh_text_search") === null)
+    {
+        return result;
+    }
+
+    var data = JSON.parse(localStorage.getItem("gh_text_search"));
+
+    if (data["text_search"])
+    {
+        var text_search = data["text_search"];
+        if (text_search["value"])
+            result = text_search["value"];
+    }
+
+    return result;
+
 }
 
 function create_ext_search_div(file_nav_node)
@@ -540,6 +581,15 @@ function create_ext_search_div(file_nav_node)
         document.getElementById("ext_search_container").style.marginLeft = "auto";
         document.getElementById("ext_search_container").style.marginRight = "auto";
 
+        var last_search = get_last_search();
+
+        if ((last_search == "") || (last_search == undefined))
+            return;
+
+        // write value on input
+        document.getElementById("ext_search_bar").value = last_search;
+        // redo search
+        do_search();
 }
 
 
