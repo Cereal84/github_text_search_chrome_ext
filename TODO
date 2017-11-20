@@ -5,8 +5,11 @@ TODO list
     [x] Add auto focus on match
     [x] Add shortcut for Linux
     [x] Add button to move around the matches
+    [x] Add shortcut for MAC
 
     - add settings to choose the position of panel with button
+    - add checkbox to have panel to move around the matches
+    - add close button on matches panel
 
 	- add button to clear data from local storage for current search
 
