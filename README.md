@@ -1,4 +1,4 @@
-![Project Logo](icon128.png)
+![Project Logo](images/icon128.png)
 
 
 GitHub Text Search
