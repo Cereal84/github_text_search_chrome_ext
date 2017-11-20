@@ -12,8 +12,9 @@
 }
 
 .key{
-    width: 30px; height:25px;
-    background-color:gray;
+    width:  30px;
+    height: 25px;
+    background-color: #D3D3D3;
     display: block;
     text-align: center;
     padding-left: 8px;
@@ -27,7 +28,8 @@
 }
 
 .plus_key {
-    width: 30px; height:25px;
+    width: 20px;
+    height:25px;
     display: block;
     text-align: center;
     padding-left: 8px;
