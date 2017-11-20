@@ -6,7 +6,7 @@
     "description": "Add a search text bar on current GitHub repo page.",
 	"author": "Alessandro Pischedda",
 
-    "version": "0.9.6",
+    "version": "0.9.7",
 
 	"icons" : {
 		"16": "images/icon16.png",
@@ -17,8 +17,8 @@
     "content_scripts": [
         {
             "matches": ["https://github.com/*"],
-            "js":  ["content.js"],
-            "css": ["ext_style.css"]
+            "js":  ["view.js", "content.js"],
+            "css": ["content_style.css"]
         }
     ],
 
