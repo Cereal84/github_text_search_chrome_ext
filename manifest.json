@@ -18,7 +18,7 @@
         {
             "matches": ["https://github.com/*"],
             "js":  ["key_events.js", "view.js", "storage.js", "content.js"],
-            "css": ["content_style.css"]
+            "css": ["css/content_style.css"]
         }
     ],
 
