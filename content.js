@@ -1,7 +1,7 @@
 /*
  * LocalStore key => "gh_search_text"
  *
- * FORMAT
+ * DATA
  *      "gh_search_text" : {
  *          <USER+REPONAME_1> : {
  *               "text_search" : "SEARCH_STRING",
