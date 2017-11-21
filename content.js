@@ -348,29 +348,21 @@ function search_bar_keypress(event)
 
 function get_last_search()
 {
-    var result = "";
+    var text_search = "";
 
+    var path_name = window.location.pathname;
+    var items = path_name.split("/");
+    var key = itmes[0] + "/" + items[1];
 
-    data = get_data();
+    data = get_data(key);
 
     if (data === null)
     {
-        return result;
+        return text_search;
     }
 
-    if (data["text_search"])
-    {
-        var text_search = data["text_search"];
-        if (text_search["value"])
-            result = text_search["value"];
-    }
-
-    return result;
-
+    return data["text_search"];
 }
-
-
-
 
 
 function main(evt) {
