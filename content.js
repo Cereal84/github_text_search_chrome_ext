@@ -3,10 +3,15 @@
  *
  * FORMAT
  *      "gh_search_text" : {
- *          "text_search" : {
- *              "value" :  "SEARCH_STRING",
- *              "matches" : [ "FILENAME", "FILENAME" ]
- *          }
+ *          <USER+REPONAME_1> : {
+ *               "text_search" : "SEARCH_STRING",
+ *               "matches" : [ "FILENAME", "FILENAME" ]
+ *          },
+            <USER+REPONNAME_X>  : {
+ *               "text_search" : "SEARCH_STRING",
+ *               "matches" : [ "FILENAME", "FILENAME" ]
+ *          },
+
  *      }
  *
  * */
@@ -15,101 +20,30 @@
 
 window.addEventListener ("load", main, false);
 
+// add event keyUp
+document.addEventListener('keyup', focus_keyUp, false);
+
 // global variable used to loop on focus elements
 var current_focus_index = 0;
-var total_matches = 0;
-var match_color = null;
+var total_matches       = 0;
+var match_color         = null;
 
+
+// localstore
+const EXT_MAIN_KEY    = "gh_text_search";
+
+const ID_MATCH_BASE     = 'gh_ext_match_';
 
 function first_focus()
 {
     if (total_matches == 0)
         return;
 
-    var id_name = "gh_ext_match_0";
+    var id_name = ID_MATCH_BASE + "0";
 
     document.getElementById(id_name).focus();
 }
 
-
-function go_to_prev_focus()
-{
-
-    if (total_matches == 0)
-        return;
-
-    var tmp_index = current_focus_index - 1;
-
-    if (tmp_index < 0) {
-        tmp_index = total_matches - 1;
-    }
-
-    current_focus_index = tmp_index;
-
-    var id_name = "gh_ext_match_" + current_focus_index;
-
-    document.getElementById(id_name).focus();
-    update_focus_infos();
-}
-
-
-function go_to_next_focus()
-{
-
-    if (total_matches == 0)
-        return;
-
-    var tmp_index = current_focus_index + 1;
-    if (tmp_index > (total_matches - 1))
-        tmp_index = 0;
-
-    current_focus_index = tmp_index;
-
-    var id_name = "gh_ext_match_" + current_focus_index;
-
-    document.getElementById(id_name).focus();
-    update_focus_infos();
-
-}
-
-function focus_keyUp(e) {
-
-    /*  MAC:
-     *
-     *  Next  shift + arrow right
-     *  Prev  shift + arrow left
-     *
-     *  Othres:
-     *
-     *  Next  ctrl + arrow right
-     *  Prev  ctrl + arrow left
-     *
-     * */
-    if (navigator.appVersion.indexOf("Mac")!=-1)
-    {
-
-        // on MAC we're using shift instead of ctrl
-        if (e.shiftKey && (e.which == 39)) {
-            go_to_next_focus();
-        }
-        if (e.shiftKey && (e.wchich == 37)) {
-            go_to_prev_focus();
-        }
-
-    } else {
-
-        if (e.ctrlKey && (e.keyCode == 39)) {
-            go_to_next_focus();
-        }
-        if (e.ctrlKey && (e.keyCode == 37)) {
-            go_to_prev_focus();
-        }
-
-    }
-
-}
-
-document.addEventListener('keyup', focus_keyUp, false);
 
 function clean_page()
 {
@@ -121,45 +55,47 @@ function clean_page()
 }
 
 
+function save_data(data)
+{
+
+    console.log(data);
+    localStorage.setItem(EXT_MAIN_KEY, JSON.stringify(data));
+}
+
+function get_data()
+{
+    var data = null;
+    data =  JSON.parse(localStorage.getItem(EXT_MAIN_KEY));
+
+    return data;
+}
+
+
 /* remove data from storage */
 function clean_data()
 {
-
-    // check if background color is stored
-    if (localStorage.getItem("gh_text_search"))
-    {
-        var data = {};
-        // init background color if it not exists
-        data["text_search"] = {};
-
-        localStorage.setItem("gh_text_search" , JSON.stringify(data));
-
-    }
-
-
-
+    data = {};
+    data["text_search"] = {};
+    save_data(data);
 }
 
 function store_last_search(text_search, matches)
 {
-    json_data = JSON.parse(localStorage.getItem("gh_text_search"));
+    data = get_data();
 
-    json_data["text_search"] = {"value": text_search, "matches" : matches };
+    data["text_search"] = {"value": text_search, "matches" : matches };
     // TODO add history
-    localStorage.setItem("gh_text_search" , JSON.stringify(json_data));
+
+    save_data(data);
 }
 
 
 function replace_match(match, p1)
 {
 
+    var id_name = ID_MATCH_BASE + total_matches;
 
-    // TODO check if the match is inside a tag, in that case ignore it
-
-    var id_name = "gh_ext_match_" + total_matches;
-
-    new_value = '<span id="' + id_name + '"' +
-                   'tabindex="0" style="background:' + match_color +'">'+p1+'</span>';
+    new_value = create_highlight_wrapper(id_name, match_color, p1);
 
     // update total matches
     total_matches++;
@@ -174,15 +110,10 @@ function highlight(container, what) {
         return;
 
 
-    // TODO ISSUE: using innerHTML it do replace even inside HTML tags
-    // corrupting the tag
-
     var content = container.innerHTML;
 
     if ((content == "") || (content == undefined))
         return;
-
-    var id_name = "gh_ext_match_" + total_matches;
 
     // BLACK (RegExp) MAGIC
     // (?!([^<])*?>) avoid to have match inside HTML tags
@@ -191,9 +122,7 @@ function highlight(container, what) {
     var new_content = content.replace(pattern, replace_match);
 
     if (new_content != content )
-    {
         container.innerHTML = new_content;
-    }
 
 }
 
@@ -203,7 +132,6 @@ function search_in_table_file(container, search_for)
     // these files have a table
     // class="highlight tab-size js-file-line-container"
     // container is div with itemprop=text
-
 
     chrome.runtime.sendMessage({type: "getMatchColor"}, function(response) {
 
@@ -280,7 +208,6 @@ function search_in_article_file(container, search_for)
         create_match_div();
     });
 
-
 }
 
 
@@ -297,8 +224,9 @@ function highlight_matches_on_current_file()
     // remove '/'
     var current_file = tmp[1].substring(1);
 
-    var ext_data = JSON.parse(localStorage.getItem("gh_text_search"));
-    if (ext_data["text_search"] === null)
+    var ext_data = get_data();
+
+    if (ext_data === null)
         return;
 
     var match_infos = ext_data['text_search'];
@@ -317,9 +245,8 @@ function highlight_matches_on_current_file()
     var container =  document.querySelectorAll('[itemprop="text"]');
     if (container) {
 
-        if(document.querySelector('[class="markdown-body entry-content"]'))
+        if (document.querySelector('[class="markdown-body entry-content"]'))
         {
-            console.log("search in ARTICLE");
             search_in_article_file(container[0], search_for);
         }
         else
@@ -328,8 +255,6 @@ function highlight_matches_on_current_file()
         }
 
     }
-        //search_and_highlight_text(container[0], search_for);
-
 }
 
 
@@ -365,8 +290,8 @@ function show_matches(matches)
 
 function do_search()
 {
-    var content = document.getElementById("ext_search_bar").value;
-    var span_info = document.getElementById("gh_match_infos");
+    var content = document.getElementById(ID_EXT_SEARCH_BAR).value;
+    var span_info = document.getElementById(ID_GH_MATCH_INFOS);
 
     // clean match result table
     clean_page();
@@ -397,11 +322,9 @@ function do_search()
 
             for (i = 0; i < data_json["total_count"]; i++)
             {
-
                 var tmp = data_json["items"][i]["path"];
                 matches.push(data_json["items"][i]["path"]);
             }
-
 
             // SHOW Matches Found: X
             //var span_info = document.getElementById("gh_match_infos");
@@ -422,7 +345,7 @@ function do_search()
 
 }
 
-function keypress_handler(event)
+function search_bar_keypress(event)
 {
     // enter has keyCode = 13, change it if you want to use another button
     if (event.keyCode == 13) {
@@ -436,12 +359,13 @@ function get_last_search()
 {
     var result = "";
 
-    if (localStorage.getItem("gh_text_search") === null)
+
+    data = get_data();
+
+    if (data === null)
     {
         return result;
     }
-
-    var data = JSON.parse(localStorage.getItem("gh_text_search"));
 
     if (data["text_search"])
     {
@@ -457,18 +381,9 @@ function get_last_search()
 
 function init_content_script()
 {
-    // check if background color is stored
-    if (localStorage.getItem("gh_text_search") === null)
-    {
-        var data = {};
-        // init background color if it not exists
-        data["text_search"] = {};
 
-        localStorage.setItem("gh_text_search" , JSON.stringify(data));
-
-    }
-
-
+    if (localStorage.getItem(EXT_MAIN_KEY) == undefined)
+        clean_data();
 }
 
 
