@@ -1,7 +1,7 @@
 /*
  * This file contains methods which construct HTML element
  * and change the page layout
- * 
+ *
 */
 
 const ID_PANEL = 'gh_match_next_prev';
@@ -12,15 +12,28 @@ const ID_EXT_SEARCH_BAR = 'ext_search_bar';
 const ID_GH_MATCH_INFOS = 'gh_match_infos';
 
 
+function create_highlight_wrapper(id_name, background_color, text)
+{
+    var html = '<span id="' + id_name + '"' +
+               'tabindex="0" style="background:' + background_color + '">' +
+                text + '</span>';
 
+    return html;
+
+}
+
+
+// update the current focus number
 function update_focus_infos()
 {
-    var span_infos = document.getElementById( ID_FOCUS_INFOS );
+    var span_infos = document.getElementById( ID_FOCUS_INFO );
     var text = "[" + (current_focus_index + 1 ) + "/" + total_matches + "]";
     span_infos.innerHTML = text;
 }
 
 
+
+/* panel which contains button Next/Prev and Match counter */
 function create_match_div()
 {
     // its position is to bottom right of the window
@@ -49,7 +62,7 @@ function create_match_div()
 
     // info about focused match / total_matches
     var focus_match_infos = document.createElement("span");
-    focus_match_infos.setAttribute("id", ID_FOCUS_INFOS);
+    focus_match_infos.setAttribute("id", ID_FOCUS_INFO);
     focus_match_infos.innerHTML = "[1/" + total_matches + "]";
     focus_match_infos.style.marginLeft = "2px";
 
@@ -61,6 +74,9 @@ function create_match_div()
     document.body.appendChild(panel);
 }
 
+
+
+// create the panel with match files listed
 function create_match_container()
 {
     var matches_div = document.createElement("div");
@@ -87,6 +103,9 @@ function create_match_container()
 
 }
 
+
+
+// contains the div with the search basr
 function create_ext_search_div(file_nav_node)
 {
 
@@ -109,7 +128,7 @@ function create_ext_search_div(file_nav_node)
         input.setAttribute('class', 'form-control');
         input.setAttribute('placeholder', 'Search into code');
 
-        input.addEventListener("keypress", keypress_handler);
+        input.addEventListener("keypress", search_bar_keypress);
 
         // span with searching info list "start"/"end"
         var span_info = document.createElement("span");
