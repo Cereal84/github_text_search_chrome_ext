@@ -138,8 +138,6 @@ function search_in_table_file(container, search_for)
 }
 
 
-
-
 function search_and_highlight_text(container, search_for)
 {
 
