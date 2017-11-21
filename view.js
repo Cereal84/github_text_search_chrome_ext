@@ -39,15 +39,12 @@ function create_match_div()
     // its position is to bottom right of the window
     var panel = document.createElement("div");
     panel.setAttribute('id', ID_PANEL);
-    //panel.setAttribute('class', 'panel panel-default');
-    panel.style.bottom = "40px";
-    panel.style.right = "50px";
-    panel.style.zIndex = "999";
-    panel.style.position = "fixed";
-    panel.style.border = "2px solid #c8e1ff";
+    panel.setAttribute('class', 'search_panel');
 
     var panel_body = document.createElement("div");
-    panel_body.style.margin = "3px";
+    panel_body.setAttribute('class', 'panel_body');
+    //panel_body.style.margin = "3px";
+
     // button PREV
     var button_prev = document.createElement("button");
     var prev_text = document.createTextNode("Prev");
