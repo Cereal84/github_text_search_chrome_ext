@@ -17,13 +17,16 @@
     "content_scripts": [
         {
             "matches": ["https://github.com/*"],
-            "js":  ["key_events.js", "view.js", "storage.js", "content.js"],
+            "js":  ["js/content/key_events.js",
+                    "js/content/view.js",
+                    "js/content/storage.js",
+                    "js/content/content.js"],
             "css": ["css/content_style.css"]
         }
     ],
 
     "background": {
-        "scripts": ["background.js"]
+        "scripts": ["js/background.js"]
     },
 
     "browser_action": {
