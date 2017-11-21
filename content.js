@@ -51,24 +51,26 @@ function clean_page()
     }
 }
 
+function get_username_repo()
+{
+    var path_name = window.location.pathname;
+    var items = path_name.split("/");
+    var key = items[1] + "/" + items[2];
+
+    return key;
+}
+
 
 function store_last_search(text_search, matches)
 {
 
     var data = create_entry(text_search, matches);
-    save_data(data);
-
-    // key is username + reponame
-    var path_name = window.location.pathname;
-    var items = path_name.split("/");
-
-
-    var key = items[0] + "/" + items[1];
-    save_data(key, data);
+    var key = get_username_repo();
+    save_data(data, key);
 
 }
 
-function store_last_search(text_search, matches)
+/*function store_last_search(text_search, matches)
 {
     data = get_data();
 
@@ -77,7 +79,7 @@ function store_last_search(text_search, matches)
     // TODO add history
 
     save_data(data);
-}
+}*/
 
 
 function replace_match(match, p1)
@@ -325,11 +327,10 @@ function do_search()
         }
     };
 
-    var path_name = window.location.pathname;
-    var items = path_name.split("/");
+    var req = get_username_repo();
 
     var url_query ='https://api.github.com/search/code?q=' + content;
-    url_query += "+in:file+repo:"+items[1]+"/"+items[2];
+    url_query += "+in:file+repo:" + req;
 
     gh_request.open("GET", url_query, true);
     gh_request.send();
@@ -346,17 +347,21 @@ function search_bar_keypress(event)
     }
 }
 
+
+
 function get_last_search()
 {
     var text_search = "";
 
-    var path_name = window.location.pathname;
-    var items = path_name.split("/");
-    var key = itmes[0] + "/" + items[1];
+    var key = get_username_repo();
+
+    console.log("Get DATA for ", key);
 
     data = get_data(key);
 
-    if (data === null)
+    console.log(data);
+
+    if (data == null)
     {
         return text_search;
     }
