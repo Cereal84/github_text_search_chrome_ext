@@ -10,18 +10,16 @@ echo "$EXT_DIR created"
 # copy the files
 ext_files=(
     "manifest.json"
-    "content.js"
-    "ext_style.css"
-    "popup.html"
-    "popup.js"
-    "background.js");
+    "popup.html");
 
 for i in ${ext_files[@]}; do
      echo $i
      cp ${i} ${EXT_DIR}
 done
 
+cp -r js ${EXT_DIR}
 cp -r images ${EXT_DIR}
+cp -r css ${EXT_DIR}
 
 
 # compress zip file
