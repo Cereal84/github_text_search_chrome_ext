@@ -9,6 +9,7 @@ TODO list
     [x] When go back to the repo page redo last search
     [x] Clean data when search empty string
 
+    - add timestamp in order to clean old data ( old == 1h)
     - add settings to choose the position of panel with button
     - add checkbox to have panel to move around the matches
 	- add button to clear data from local storage for current search
