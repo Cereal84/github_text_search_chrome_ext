@@ -70,17 +70,6 @@ function store_last_search(text_search, matches)
 
 }
 
-/*function store_last_search(text_search, matches)
-{
-    data = get_data();
-
-    console.log(data);
-    data["text_search"] = {"value": text_search, "matches" : matches };
-    // TODO add history
-
-    save_data(data);
-}*/
-
 
 function replace_match(match, p1)
 {
@@ -165,7 +154,6 @@ function search_and_highlight_text(container, search_for)
     if (children.length == 0)
     {
         // search the text
-        console.log("HIGHLIGHT");
         highlight(container, search_for);
         return;
     } else {
@@ -216,19 +204,20 @@ function highlight_matches_on_current_file()
     // remove '/'
     var current_file = tmp[1].substring(1);
 
-    var ext_data = get_data();
+    var key = get_username_repo();
+
+    var ext_data = get_data(key);
 
     if (ext_data === null)
         return;
 
-    var match_infos = ext_data['text_search'];
 
-    var search_for = match_infos["value"];
-    var matches    = match_infos["matches"];
+    var search_for = ext_data["text_search"];
+    var matches    = ext_data["matches"];
 
     if (matches.indexOf(current_file) <= -1)
     {
-        console.log("This file is not a correct one");
+        console.log("This file is not a correct one ", current_file);
         return;
     }
 
@@ -352,14 +341,9 @@ function search_bar_keypress(event)
 function get_last_search()
 {
     var text_search = "";
-
     var key = get_username_repo();
 
-    console.log("Get DATA for ", key);
-
     data = get_data(key);
-
-    console.log(data);
 
     if (data == null)
     {
