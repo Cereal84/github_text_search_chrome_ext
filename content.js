@@ -29,9 +29,6 @@ var total_matches       = 0;
 var match_color         = null;
 
 
-// localstore
-const EXT_MAIN_KEY    = "gh_text_search";
-
 const ID_MATCH_BASE     = 'gh_ext_match_';
 
 function first_focus()
@@ -55,34 +52,27 @@ function clean_page()
 }
 
 
-function save_data(data)
+function store_last_search(text_search, matches)
 {
 
-    console.log(data);
-    localStorage.setItem(EXT_MAIN_KEY, JSON.stringify(data));
-}
-
-function get_data()
-{
-    var data = null;
-    data =  JSON.parse(localStorage.getItem(EXT_MAIN_KEY));
-
-    return data;
-}
-
-
-/* remove data from storage */
-function clean_data()
-{
-    data = {};
-    data["text_search"] = {};
+    var data = create_entry(text_search, matches);
     save_data(data);
+
+    // key is username + reponame
+    var path_name = window.location.pathname;
+    var items = path_name.split("/");
+
+
+    var key = items[0] + "/" + items[1];
+    save_data(key, data);
+
 }
 
 function store_last_search(text_search, matches)
 {
     data = get_data();
 
+    console.log(data);
     data["text_search"] = {"value": text_search, "matches" : matches };
     // TODO add history
 
@@ -316,6 +306,7 @@ function do_search()
         if (this.readyState == 4 && this.status == 200) {
 
             var data_json =  eval("(" + this.responseText + ")");
+
             var elements = document.getElementsByClassName("js-navigation-open");
 
             var matches = [];
@@ -379,18 +370,13 @@ function get_last_search()
 }
 
 
-function init_content_script()
-{
 
-    if (localStorage.getItem(EXT_MAIN_KEY) == undefined)
-        clean_data();
-}
 
 
 function main(evt) {
 
     // check if localStorage
-    init_content_script();
+    init_storage();
 
     var file_nav = document.getElementsByClassName("commit-tease");
     if (file_nav)
