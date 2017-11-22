@@ -6,7 +6,6 @@ function color_changed(event)
 {
     var background_color = event.target.value;
 
-    // TODO store it into settings
     var storage = JSON.parse(localStorage.getItem("gh_text_search"));
     var settings = storage['settings'];
     settings['background_match'] = background_color;

@@ -1,3 +1,13 @@
+0.9.7
+    - better popup infos
+    - add shortcuts for MAC, use 'shift' instead of 'ctrl'
+
+
+0.9.6
+    - Add focus on match elements, use
+        ctrl + arrow left for prev
+        ctrl + arrow right for next
+
 0.9.5
     - Fix wrong localStorage data updates
 

@@ -1,0 +1,13 @@
+.search_panel{
+
+    bottom: 40px;
+    right: 50px;
+    zIndex: 999;
+    position: fixed;
+    border : 2px solid #c8e1ff;
+}
+
+
+.panel_body {
+    margin : 3px;
+}

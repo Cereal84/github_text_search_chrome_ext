@@ -55,8 +55,6 @@ function init()
 
 
 
-    } else {
-        console.log("EXT already initialized");
     }
 }
 
