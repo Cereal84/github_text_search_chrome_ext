@@ -2,8 +2,8 @@
 # This script create the archive for Chrome Store upload
 
 # create the directory
-EXT_DIR="chrome_archive"
-ZIP_FILE="ext_chrome.zip"
+EXT_DIR="ext_archive"
+ZIP_FILE="extension.zip"
 mkdir ${EXT_DIR}
 echo "$EXT_DIR created"
 
@@ -23,7 +23,7 @@ cp -r css ${EXT_DIR}
 
 
 # compress zip file
-zip -r ${ZIP_FILE}  ${EXT_DIR}
+zip -r -FS ${ZIP_FILE}  ${EXT_DIR}
 
 # delete directory
 rm -r ${EXT_DIR}
