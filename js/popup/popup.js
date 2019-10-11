@@ -15,6 +15,7 @@ function color_changed(event)
 
 }
 
+
 function main(evt) {
 
     var match_color = null;
@@ -40,6 +41,9 @@ function main(evt) {
     color_select.addEventListener("change", color_changed, false);
 
 
+    settings_select = document.getElementById("gh_text_search");
+
+    settings_select.addEventListener("click", clean_data, false)
 }
 
 

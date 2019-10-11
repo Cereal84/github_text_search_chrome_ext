@@ -3,6 +3,7 @@
     <head>
         <title>GitHub Extension Setings</title>
         <link href="css/popup.css" rel="stylesheet">
+        <script src="js/content/storage.js"></script>
         <script src="js/popup/popup.js"></script>
     </head>
     <body>
@@ -12,10 +13,20 @@
                     <table>
                         <tr>
                             <td>
-                                <label class="inner_voice">Background color for matches </label>
+                                <label for="gh_ext_color" class="inner_voice">Background color for matches </label>
                             </td>
                             <td>
                                 <input class="color_input" type="color" id="gh_ext_color">
+                            </td>
+                        </tr>
+                    </table>
+                    <table>
+                        <tr>
+                            <td>
+                                <label for="gh_text_search" class="inner_voice">Settings</label>
+                            </td>
+                            <td>
+                                <input class="storage_btn" type="button" id="gh_text_search" value="Clear settings">
                             </td>
                         </tr>
                     </table>
